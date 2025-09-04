@@ -1,0 +1,1 @@
+export type PaymentMethod = 'google' | 'credit' | 'cash' | 'paypal' | null;
