@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { cartApi } from "./api/cartApi"; // created in next step
 import { addressApi } from "./api/addressApi";
 // import { orderApi } from './api/orderApi';
 // import orderReducer from './slices/orderSlice';
@@ -13,7 +12,6 @@ import paymentReducer from "./slices/paymentSlice";
 // import { availableCouponApi } from './api/availableCouponsApi';
 export const store = configureStore({
   reducer: {
-    [cartApi.reducerPath]: cartApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
     // [customerDetailsApi.reducerPath]: customerDetailsApi.reducer,
@@ -29,7 +27,6 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      cartApi.middleware,
       addressApi.middleware,
       baseApi.middleware
       // orderApi.middleware,
