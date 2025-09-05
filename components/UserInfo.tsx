@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import Person4OutlinedIcon from '@mui/icons-material/Person4Outlined';
 import { DialogType } from '@/lib/types/dialog_type';

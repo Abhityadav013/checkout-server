@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/components/StoreProvider";
 import MobileViewDetector from "@/components/MobileViewDetector";
+import { NoSsr } from "@mui/material"; // ✅ import NoSsr
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <StoreProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <MobileViewDetector />
-          {children}
-        </body>
-      </html>
+      <NoSsr> {/* ✅ Wrap entire app to disable SSR for MUI hooks */}
+        <html lang="en">
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <MobileViewDetector />
+            {children}
+          </body>
+        </html>
+      </NoSsr>
     </StoreProvider>
   );
 }
