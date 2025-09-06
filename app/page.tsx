@@ -7,6 +7,7 @@ import { GetCartData } from "@/lib/types/cart_data.type";
 import { MenuItem } from "@/lib/types/menu";
 import { Customer } from "@/lib/types/user_details";
 import { Box } from "@mui/material";
+import { redirect } from "next/navigation";
 
 async function getMenuData(): Promise<MenuItem[]> {
   try {
@@ -69,7 +70,10 @@ export default async function CheckoutPage({
 }) {
   const resolvedParams = searchParams ? await searchParams : undefined;
   const orderId = resolvedParams?.orderId;
-  const basketId = resolvedParams?.basketId || "YTBlZDI1YmQtOTRhMy00Nz";
+  const basketId = resolvedParams?.basketId ?? "";
+  if (!basketId) {
+    redirect("order.indiantadka.eu"); // server-side redirect
+  }
   const [menuData, cartdata] = await Promise.all([
     getMenuData(),
     getCartData(basketId),
@@ -108,7 +112,7 @@ export default async function CheckoutPage({
         >
           <Box sx={{ flex: 1 }}>
             <OrderDetails cart={cartdata} userData={userData} />
-            <PaymentMethodSelector/> 
+            <PaymentMethodSelector />
           </Box>
 
           <Box sx={{ flex: 1 }}>

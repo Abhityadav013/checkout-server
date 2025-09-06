@@ -15,7 +15,7 @@ export default function PaymentMethod() {
   const [loading, setLoading] = useState(true);
   const { payment_type } = useSelector((state: RootState) => state.payment);
   const searchParams = useSearchParams(); // URLSearchParams
-  const basketParam = searchParams.get('basket') || '';
+  const basketParam = searchParams.get('basketId') || '';
   const orderTypeParam = searchParams.get('orderType') || '';
  
   useEffect(() => {
