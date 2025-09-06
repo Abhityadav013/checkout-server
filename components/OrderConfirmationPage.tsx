@@ -65,13 +65,11 @@ const getStatusColor = (status: OrderStatus): ChipProps["color"] => {
 export default async function OrderConfirmationPage({
   orderId,
 }: OrderConfirmationPageProps) {
-  console.log("OrderConfirmationPage:::::::::::", orderId);
   if (!orderId) return notFound();
 
   const order: OrderSuccessSummary = await getOrderDetails(orderId);
 
   if (!order) return notFound();
-  console.log("order:::::::::::", order);
   const subtotal = order.orderAmount.orderTotal;
   const deliveryFee = Number(order.orderAmount.deliveryFee) ?? 0;
   const serviceCharge = order.orderAmount.serviceFee;
@@ -202,7 +200,7 @@ export default async function OrderConfirmationPage({
                       variant="body1"
                       className="font-medium text-gray-900"
                     >
-                      {order.userPhone}
+                      +49-{order.userPhone}
                     </Typography>
                   </div>
                 </div>

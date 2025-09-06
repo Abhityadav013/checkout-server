@@ -21,34 +21,38 @@ export default function CheckoutBillActions({ orderId }: CheckoutBillActionsProp
     window.print();
   };
 
-  const handleDownload = async () => {
-    const element = document.getElementById('checkout-bill');
-    if (!element) return;
+const handleDownload = async () => {
+  const element = document.getElementById("checkout-bill");
+  if (!element) return;
 
-    try {
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        logging: false,
-        useCORS: true
-      });
-      
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 30;
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      logging: false,
+      useCORS: true,
+      ignoreElements: () => false,
+      // Optional: force background color to white
+      backgroundColor: "#ffffff",
+    });
 
-      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-      pdf.save(`order-${orderId}.pdf`);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    }
-  };
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+    const imgY = 30;
+
+    pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+    pdf.save(`order-${orderId}.pdf`);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  }
+};
+
 
   return (
     <Box 
