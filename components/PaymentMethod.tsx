@@ -34,9 +34,10 @@ export default function PaymentMethod() {
     const deliveryTimeData = getDialogDataFromSession('time');
     const deliveryNoteData = getDialogDataFromSession('notes') as { notes: string };
 
-    const payRes = await fetch(`${base_url}/create-cash-order`, {
+    const payRes = await fetch(`${base_url}/order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         selectedMethod: selectedMethod,
         basketId: basketParam,
@@ -50,7 +51,7 @@ export default function PaymentMethod() {
     if (payData.orderId) {
       setSubmitting(false);
       router.push(
-        `/checkout${basketParam ? '?basket=' + basketParam : ''}&orderId=${payData.orderId}`
+        `/${basketParam ? '?basketId=' + basketParam : ''}&orderId=${payData.orderId}`
       );
       return;
     }
