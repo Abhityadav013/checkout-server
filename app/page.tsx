@@ -1,4 +1,5 @@
 import NavBarNavigation from "@/components/NavBarNavigation"; // Try to make this a server component
+import OrderConfirmationPage from "@/components/OrderConfirmationPage";
 import OrderDetails from "@/components/OrderDetails";
 import OrderSummary from "@/components/OrderSummary";
 import PaymentMethodSelector from "@/components/PaymentMethodSelector";
@@ -85,6 +86,7 @@ export default async function CheckoutPage({
   });
 
   if (orderId) {
+    <OrderConfirmationPage orderId={orderId} />;
   }
   return (
     <main className="min-h-screen bg-gray-50 py-4 px-2 bg-[url('https://testing.indiantadka.eu/assets/bg-checkout-multi.avif')] bg-no-repeat bg-cover bg-center">

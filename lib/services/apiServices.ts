@@ -9,6 +9,7 @@ import {
 } from "../types/user_details";
 import { Info } from "../types/restro_info";
 import { GetCartData } from "../types/cart_data.type";
+import { OrderSuccessSummary } from "../types/order_summary";
 
 export class ApiService {
   static async fetchCategories(): Promise<MenuCategory[]> {
@@ -148,4 +149,14 @@ export class ApiService {
       throw error;
     }
   }
+
+  static async fetchOrderDetails(orderId: string) {
+    try {
+      const orderDetailRaw = await fetchFromApi<OrderSuccessSummary>(`/orders/${orderId}`, false);
+      return orderDetailRaw;
+    } catch (error) {
+      console.error("Error fetching menu data:", error);
+       return {} as OrderSuccessSummary;
+    }
+  }  
 }
