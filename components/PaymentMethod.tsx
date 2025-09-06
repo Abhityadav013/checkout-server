@@ -52,7 +52,7 @@ export default function PaymentMethod() {
       setSubmitting(false);
       router.push(
         `/${basketParam ? "?basketId=" + basketParam : ""}&orderId=${
-          response.orderId
+          response.displayId
         }`
       );
       return;

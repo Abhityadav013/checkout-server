@@ -70,6 +70,7 @@ export default async function CheckoutPage({
   searchParams?: Promise<CheckoutPageParam>;
 }) {
   const resolvedParams = searchParams ? await searchParams : undefined;
+  console.log('resolvedParams:::::',resolvedParams)
   const orderId = resolvedParams?.orderId;
   const basketId = resolvedParams?.basketId ?? "";
   if (!basketId) {
@@ -84,7 +85,7 @@ export default async function CheckoutPage({
     deviceId: cartdata.deviceId,
     tid: cartdata.tid,
   });
-
+  console.log('orderId:::::',orderId)
   if (orderId) {
     <OrderConfirmationPage orderId={orderId} />;
   }

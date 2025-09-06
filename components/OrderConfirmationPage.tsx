@@ -68,6 +68,7 @@ export default async function OrderConfirmationPage({
   if (!orderId) return notFound();
 
   const order: OrderSuccessSummary = await getOrderDetails(orderId);
+  console.log('order:::::::::::',order)
   if (!order) return notFound();
 
   const subtotal = order.orderAmount.orderTotal;
