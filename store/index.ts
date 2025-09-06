@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { addressApi } from "./api/addressApi";
-// import { orderApi } from './api/orderApi';
+import { orderApi } from "./api/orderApi";
 // import orderReducer from './slices/orderSlice';
 import mobileReducer from "./slices/mobileSlice";
 import addressReducer from "./slices/addressSlice"; // Assuming you have an addressSlice
@@ -15,9 +15,8 @@ export const store = configureStore({
     [addressApi.reducerPath]: addressApi.reducer,
     [baseApi.reducerPath]: baseApi.reducer,
     // [customerDetailsApi.reducerPath]: customerDetailsApi.reducer,
-    // [orderApi.reducerPath]: orderApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
     // [availableCouponApi.reducerPath]: availableCouponApi.reducer,
-    // order: orderReducer,
     mobile: mobileReducer,
     address: addressReducer, // Assuming you have an addressReducer
     basket: basketReducer, // Assuming you have a basketReducer
@@ -28,8 +27,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       addressApi.middleware,
-      baseApi.middleware
-      // orderApi.middleware,
+      baseApi.middleware,
+      orderApi.middleware
       // availableCouponApi.middleware // ✅ Add this
     ),
 });

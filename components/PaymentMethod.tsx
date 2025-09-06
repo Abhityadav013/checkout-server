@@ -1,24 +1,27 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import type { PaymentMethod } from '@/lib/types/payment_method_type';
-import { Button, CircularProgress } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { getDialogDataFromSession } from '@/utils/updateCustomerOrderDetails';
-import { OrderType } from '@/lib/types/enums';
-import { base_url } from '@/lib/apiEndPoint';
+"use client";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import type { PaymentMethod } from "@/lib/types/payment_method_type";
+import { Button, CircularProgress } from "@mui/material";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getDialogDataFromSession } from "@/utils/updateCustomerOrderDetails";
+import { OrderType } from "@/lib/types/enums";
+import { useCreateOrderMutation } from "@/store/api/orderApi";
 
 export default function PaymentMethod() {
   const router = useRouter();
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(
+    null
+  );
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const { payment_type } = useSelector((state: RootState) => state.payment);
   const searchParams = useSearchParams(); // URLSearchParams
-  const basketParam = searchParams.get('basketId') || '';
-  const orderTypeParam = searchParams.get('orderType') || '';
- 
+  const basketParam = searchParams.get("basketId") || "";
+  const orderTypeParam = searchParams.get("orderType") || "";
+  const [createOrder] = useCreateOrderMutation();
+
   useEffect(() => {
     if (payment_type) {
       setSelectedMethod(payment_type);
@@ -31,27 +34,28 @@ export default function PaymentMethod() {
   const handleCashPayment = async () => {
     setSubmitting(true);
     const isDelivery = orderTypeParam === OrderType.DELIVERY || false;
-    const deliveryTimeData = getDialogDataFromSession('time');
-    const deliveryNoteData = getDialogDataFromSession('notes') as { notes: string };
+    const deliveryTimeData = getDialogDataFromSession("time");
+    const deliveryNoteData = getDialogDataFromSession("notes") as {
+      notes: string;
+    };
 
-    const payRes = await fetch(`${base_url}/order`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        selectedMethod: selectedMethod,
-        basketId: basketParam,
-        orderType: orderTypeParam,
-        deliveryTime: deliveryTimeData,
-        ...(isDelivery && { deliveryNote: deliveryNoteData?.notes ?? '' }),
-      }),
+    const payload = JSON.stringify({
+      selectedMethod: selectedMethod,
+      basketId: basketParam,
+      orderType: orderTypeParam,
+      deliveryTime: deliveryTimeData,
+      ...(isDelivery && { deliveryNote: deliveryNoteData?.notes ?? "" }),
     });
 
-    const payData = await payRes.json();
-    if (payData.orderId) {
+    const response = await createOrder(payload).unwrap();
+    console.log('response:::',response)
+
+    if (response.orderId) {
       setSubmitting(false);
       router.push(
-        `/${basketParam ? '?basketId=' + basketParam : ''}&orderId=${payData.orderId}`
+        `/${basketParam ? "?basketId=" + basketParam : ""}&orderId=${
+          response.orderId
+        }`
       );
       return;
     }
@@ -62,20 +66,20 @@ export default function PaymentMethod() {
       variant="contained"
       onClick={handleCashPayment}
       sx={{
-        width: '100%',
-        backgroundColor: '#f36805',
-        color: 'white',
-        padding: '6px 12px',
-        fontSize: '20px',
-        fontWeight: 'bold',
-        borderRadius: '50px',
-        textTransform: 'none',
-        '&:hover': {
-          backgroundColor: '#f36805',
+        width: "100%",
+        backgroundColor: "#f36805",
+        color: "white",
+        padding: "6px 12px",
+        fontSize: "20px",
+        fontWeight: "bold",
+        borderRadius: "50px",
+        textTransform: "none",
+        "&:hover": {
+          backgroundColor: "#f36805",
         },
       }}
     >
-      {submitting ? <CircularProgress size={34} /> : 'Place Order'}
+      {submitting ? <CircularProgress size={34} /> : "Place Order"}
     </Button>
   );
 }
