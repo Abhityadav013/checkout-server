@@ -3,6 +3,7 @@ import {
   OrderSuccessSummary,
 } from "@/lib/types/order_summary";
 import ApiResponse from "@/utils/ApiResponse";
+import { waitForIds } from "@/utils/fetchLocalStorage";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const orderApi = createApi({
@@ -10,13 +11,15 @@ export const orderApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: base_url,
     credentials: "include",
-    prepareHeaders: (headers) => {
-      const tid = localStorage.getItem("tid");
-      const ssid = localStorage.getItem("ssid");
 
-      if (tid) headers.set("tid", tid);
-      if (ssid) headers.set("ssid", ssid);
-
+    prepareHeaders: async (headers) => {
+      // wait up to ~3s total, checking each second
+      const { tid, ssid } = await waitForIds(3, 1000);
+      headers.set("Content-Type", "application/json");
+      if (tid && ssid) {
+        headers.set("x-device-id", ssid);
+        headers.set("x-tid", tid);
+      }
       return headers;
     },
   }),

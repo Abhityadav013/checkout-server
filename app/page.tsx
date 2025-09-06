@@ -73,7 +73,7 @@ export default async function CheckoutPage({
   const orderId = resolvedParams?.orderId;
   const basketId = resolvedParams?.basketId ?? "";
   if (!basketId) {
-    redirect("order.indiantadka.eu"); // server-side redirect
+    redirect("https://order.indiantadka.eu/"); // server-side redirect
   }
   const [menuData, cartdata] = await Promise.all([
     getMenuData(),

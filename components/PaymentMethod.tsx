@@ -48,8 +48,6 @@ export default function PaymentMethod() {
     });
 
     const response = await createOrder(payload).unwrap();
-    console.log('response:::',response)
-
     if (response.orderId) {
       setSubmitting(false);
       router.push(
