@@ -3,13 +3,7 @@ import { BasketItem } from "./basket";
 import { OrderStatus, OrderType, SpicyLevel } from "./enums";
 import { PaymentMethod } from "./payment_method_type";
 
-export type OrderItemSummary = {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-  customization?: Customization;
-};
+export type OrderItemSummary = BasketItem
 
 export interface Customization {
   notes?: string;

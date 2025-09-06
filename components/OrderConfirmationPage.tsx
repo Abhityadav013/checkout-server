@@ -272,7 +272,7 @@ export default async function OrderConfirmationPage({
                               variant="body1"
                               className="font-medium text-gray-900"
                             >
-                              {item.name}
+                              {item.itemName}
                             </Typography>
                             {item.customization && (
                               <Typography
