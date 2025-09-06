@@ -7,6 +7,7 @@ import { Button, CircularProgress } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getDialogDataFromSession } from '@/utils/updateCustomerOrderDetails';
 import { OrderType } from '@/lib/types/enums';
+import { base_url } from '@/lib/apiEndPoint';
 
 export default function PaymentMethod() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function PaymentMethod() {
     const deliveryTimeData = getDialogDataFromSession('time');
     const deliveryNoteData = getDialogDataFromSession('notes') as { notes: string };
 
-    const payRes = await fetch('/api/v1/create-cash-order', {
+    const payRes = await fetch(`${base_url}/create-cash-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
