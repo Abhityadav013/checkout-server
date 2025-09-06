@@ -71,7 +71,7 @@ export default async function OrderConfirmationPage({
   const order: OrderSuccessSummary = await getOrderDetails(orderId);
 
   if (!order) return notFound();
-
+  console.log("order:::::::::::", order);
   const subtotal = order.orderAmount.orderTotal;
   const deliveryFee = Number(order.orderAmount.deliveryFee) ?? 0;
   const serviceCharge = order.orderAmount.serviceFee;

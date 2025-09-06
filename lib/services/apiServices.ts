@@ -152,7 +152,11 @@ export class ApiService {
 
   static async fetchOrderDetails(orderId: string) {
     try {
-      const orderDetailRaw = await fetchFromApi<OrderSuccessSummary>(`/orders/${orderId}`, false);
+      const orderDetailRaw = await fetchFromApi<OrderSuccessSummary>(
+      "/order",
+      false,
+      { orderId } // params will become ?orderId=B00000003
+    );
       return orderDetailRaw;
     } catch (error) {
       console.error("Error fetching menu data:", error);
