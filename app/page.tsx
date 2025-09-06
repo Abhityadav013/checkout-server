@@ -70,7 +70,6 @@ export default async function CheckoutPage({
   searchParams?: Promise<CheckoutPageParam>;
 }) {
   const resolvedParams = searchParams ? await searchParams : undefined;
-  console.log('resolvedParams:::::',resolvedParams)
   const orderId = resolvedParams?.orderId;
   const basketId = resolvedParams?.basketId ?? "";
   if (!basketId) {
@@ -85,9 +84,8 @@ export default async function CheckoutPage({
     deviceId: cartdata.deviceId,
     tid: cartdata.tid,
   });
-  console.log('orderId:::::',orderId)
   if (orderId) {
-    <OrderConfirmationPage orderId={orderId} />;
+    return <OrderConfirmationPage orderId={orderId} />;
   }
   return (
     <main className="min-h-screen bg-gray-50 py-4 px-2 bg-[url('https://testing.indiantadka.eu/assets/bg-checkout-multi.avif')] bg-no-repeat bg-cover bg-center">

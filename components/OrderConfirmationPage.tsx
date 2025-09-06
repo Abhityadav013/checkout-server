@@ -65,10 +65,11 @@ const getStatusColor = (status: OrderStatus): ChipProps["color"] => {
 export default async function OrderConfirmationPage({
   orderId,
 }: OrderConfirmationPageProps) {
+  console.log("OrderConfirmationPage:::::::::::", orderId);
   if (!orderId) return notFound();
 
   const order: OrderSuccessSummary = await getOrderDetails(orderId);
-  console.log('order:::::::::::',order)
+
   if (!order) return notFound();
 
   const subtotal = order.orderAmount.orderTotal;
